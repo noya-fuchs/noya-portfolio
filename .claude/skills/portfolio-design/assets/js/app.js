@@ -92,7 +92,7 @@
   }
 
   /* Which dock item is active, and when the top bar shows. IntersectionObserver, so it works without the animation libraries. */
-  var SECTION_TO_DOCK = { home: "home", statement: "home", work: "work", impact: "impact", yoga: "yoga", roots: "about", about: "about", contact: "contact" };
+  var SECTION_TO_DOCK = { home: "home", statement: "home", work: "work", impact: "impact", yoga: "impact", roots: "about", about: "about", contact: "contact" };
   function initActive() {
     if (!("IntersectionObserver" in window)) return;
     var setActive = function (id) {
