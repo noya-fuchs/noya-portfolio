@@ -377,3 +377,11 @@ section[tabindex="-1"]:focus { outline: none; } /* sections receive focus after 
   .crow button, .crow__open { order: 2; }
   .crow__v { order: 3; flex: 1 0 100%; font-size: 1.3rem; }
 }
+
+/* Icons in the contact rows */
+.crow__ic {
+  flex: none; width: 28px; height: 28px; display: grid; place-items: center; color: var(--accent-on-dark);
+}
+.crow__ic svg { width: 26px; height: 26px; display: block; }
+.crow__k { width: 90px; }
+@media (max-width: 600px) { .crow__ic { order: 0; } }
