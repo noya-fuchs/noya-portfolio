@@ -380,9 +380,8 @@ section[tabindex="-1"]:focus { outline: none; } /* sections receive focus after 
 
 /* Icons in the contact rows */
 .crow__ic {
-  flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
-  color: var(--accent-on-dark); background: rgba(243, 242, 238, 0.08); box-shadow: inset 0 0 0 1px rgba(243, 242, 238, 0.16);
+  flex: none; width: 28px; height: 28px; display: grid; place-items: center; color: var(--accent-on-dark);
 }
-.crow__ic svg { width: 20px; height: 20px; display: block; }
+.crow__ic svg { width: 26px; height: 26px; display: block; }
 .crow__k { width: 90px; }
 @media (max-width: 600px) { .crow__ic { order: 0; } }
