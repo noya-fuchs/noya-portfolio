@@ -1,6 +1,6 @@
 /* Layout concept: one scroll story. A grey hero card where the name runs behind a cut-out portrait,
    then experience cards that stack, an Instagram column that drifts beside the Impact role,
-   and a dark contact block. One accent (Impact blue), everything else grey, paper and ink. */
+   and a dark contact block. One accent (light lilac), everything else grey, paper and ink. */
 :root {
   --bg: #E6E5E1;
   --card: #D7D6D2;
@@ -8,10 +8,10 @@
   --ink: #161615;
   --muted: #5B5A56;
   --line: rgba(22, 22, 21, 0.14);
-  --accent: #2A62C4;          /* Impact blue: buttons, nav, highlights */
-  --accent-ink: #FFFFFF;      /* text on the accent */
-  --accent-soft: #BBD3F7;     /* light tint for highlights behind dark text */
-  --accent-on-dark: #8DB8F5;  /* the accent on ink backgrounds */
+  --accent: #C9B1F2;          /* light lilac: buttons, nav, highlights */
+  --accent-ink: #161615;      /* text on the accent (dark, because the lilac is light) */
+  --accent-soft: #E4D8FA;     /* light tint for highlights behind dark text */
+  --accent-on-dark: #CDB6F6;  /* the accent on ink backgrounds */
   --sage: #DFE6C9;
   --sky-1: #B9D6F2;
   --sky-2: #E7F1FB;
@@ -152,7 +152,7 @@ ul { padding: 0; list-style: none; }
 
 /* Stacked experience cards */
 .work { padding-bottom: clamp(70px, 10vw, 140px); }
-.stack { display: grid; gap: 24px; }
+.stack { display: grid; gap: clamp(40px, 12vh, 110px); }
 .xcard {
   border-radius: 28px; padding: clamp(24px, 3.4vw, 48px); display: grid; gap: clamp(24px, 4vw, 64px);
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); transform-origin: 50% 0; position: relative; overflow: hidden;
@@ -194,14 +194,14 @@ ul { padding: 0; list-style: none; }
 }
 .impact__role { font-size: clamp(2.2rem, 4.6vw, 4.6rem); margin: 14px 0 0; }
 .impact__org { margin-top: 16px; font-size: clamp(1.05rem, 1.5vw, 1.3rem); font-weight: 500; }
-.impact__date { margin-top: 14px; display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--navy); color: #fff; font-size: 13px; font-weight: 500; }
+.impact__date { margin-top: 14px; display: inline-block; padding: 8px 16px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 13px; font-weight: 500; }
 .impact .bullets { margin-top: 32px; }
 .impact .bullets li::before { background: var(--navy); }
 .impact__note { margin-top: 28px; max-width: 46ch; font-size: 15px; opacity: 0.8; }
 .impact__cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 12px 20px; text-decoration: none;
-  font: 500 14.5px/1 var(--font-body); background: var(--navy); color: #fff; border: 0; cursor: pointer;
+  font: 500 14.5px/1 var(--font-body); background: var(--accent); color: var(--accent-ink); border: 0; cursor: pointer;
 }
 .btn--ghost { background: transparent; color: var(--navy); box-shadow: inset 0 0 0 1px rgba(20, 48, 92, 0.4); }
 
@@ -214,7 +214,7 @@ ul { padding: 0; list-style: none; }
 .feed__who { min-width: 0; flex: 1; line-height: 1.25; }
 .feed__who b { display: block; font-size: 14px; font-weight: 600; }
 .feed__who span { font-size: 12.5px; opacity: 0.7; }
-.feed__follow { font-size: 13px; font-weight: 600; text-decoration: none; background: var(--navy); color: #fff; padding: 8px 14px; border-radius: 999px; }
+.feed__follow { font-size: 13px; font-weight: 600; text-decoration: none; background: var(--accent); color: var(--accent-ink); padding: 8px 14px; border-radius: 999px; }
 .feed__scroll {
   height: min(62vh, 520px); overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
   scrollbar-width: none; scroll-snap-type: y proximity; border-radius: 14px;
@@ -330,12 +330,7 @@ ul { padding: 0; list-style: none; }
   .yrow { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .yrow img { flex: 0 0 80%; height: 320px; scroll-snap-align: start; }  .dock a { padding: 8px 10px; font-size: 12px; }
 }
-@media (min-width: 900px) and (min-height: 760px) {
-  .stack { gap: 12vh; padding-bottom: 6vh; }
-  .xcard { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 84px); }
-  .xcard:nth-child(2) { top: calc(env(safe-area-inset-top, 0px) + 104px); }
-  .impact__feed { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 90px); }
-}
+/* Each card is its own floating panel (see js/app.js), so nothing is sticky any more. */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
