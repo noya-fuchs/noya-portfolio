@@ -4,7 +4,7 @@ window.NOYA_CONFIG = {
   phone: "0502772203",
   phoneDisplay: "050-277-2203",
   instagram: "https://www.instagram.com/impact_ru.ec/",
-  feedUrl: "",          /* Behold JSON feed URL. Empty until the Impact account is connected. */
+  feedUrl: "https://feeds.behold.so/yGpNDCp8WsMsDrNMnvvj", /* Behold JSON feed of the Impact account. */
   maxPosts: 6,          /* The free Behold plan allows at most 6 posts. */
   fallbackPosts: []     /* [{ href, image, alt }] shown if the feed fails. Empty keeps the designed tiles. */
 };

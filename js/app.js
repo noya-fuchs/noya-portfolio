@@ -92,7 +92,7 @@
   }
 
   /* Which dock item is active, and when the top bar shows. IntersectionObserver, so it works without the animation libraries. */
-  var SECTION_TO_DOCK = { home: "home", statement: "home", work: "work", impact: "impact", yoga: "yoga", roots: "about", about: "about", contact: "contact" };
+  var SECTION_TO_DOCK = { home: "home", statement: "home", work: "work", impact: "impact", yoga: "impact", roots: "about", about: "about", contact: "contact" };
   function initActive() {
     if (!("IntersectionObserver" in window)) return;
     var setActive = function (id) {
@@ -127,15 +127,17 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* Hero: entrance, then parallax between the name and the portrait */
+  /* Hero: entrance. "Noya" slides in from the left, "Fuchs" from the right, the portrait rises from the bottom. */
   var nameWords = document.querySelectorAll("#heroName span");
-  gsap.from(nameWords, { yPercent: 28, opacity: 0, duration: 1.1, ease: "power4.out", stagger: 0.09 });
-  gsap.from("#heroPhoto", { yPercent: 6, opacity: 0, duration: 1.2, ease: "power3.out", delay: 0.15 });
-  gsap.from(["#heroTitle", "#heroMeta"], { y: 24, opacity: 0, duration: 0.9, ease: "power3.out", delay: 0.5, stagger: 0.1 });
+  gsap.set(["#heroName", "#heroPhoto"], { xPercent: -50, x: 0 }); /* keeps the CSS centring while GSAP moves the other axes */
+  gsap.from(nameWords[0], { xPercent: -150, opacity: 0, duration: 1.4, ease: "power4.out" });
+  gsap.from(nameWords[1], { xPercent: 150, opacity: 0, duration: 1.4, ease: "power4.out" });
+  gsap.from("#heroPhoto", { yPercent: 40, opacity: 0, duration: 1.5, ease: "power3.out", delay: 0.25 });
+  gsap.from(["#heroTitle", "#heroMeta"], { y: 24, opacity: 0, duration: 0.9, ease: "power3.out", delay: 0.9, stagger: 0.1 });
 
   var heroST = { trigger: "#heroCard", start: "top top", end: "bottom top", scrub: true };
   gsap.to("#heroName", { yPercent: -16, ease: "none", scrollTrigger: heroST });
-  gsap.to("#heroPhoto", { scale: 1.07, yPercent: 3, ease: "none", scrollTrigger: heroST });
+  gsap.to("#heroPhoto", { scale: 1.07, y: 24, ease: "none", scrollTrigger: heroST });
   gsap.to(["#heroTitle", "#heroMeta"], { y: -40, opacity: 0, ease: "none",
     scrollTrigger: { trigger: "#heroCard", start: "top top", end: "55% top", scrub: true } });
 
@@ -169,15 +171,8 @@
 
   var mm = gsap.matchMedia();
 
-  /* Desktop only: cards stack and the earlier one recedes */
+  /* Desktop only */
   mm.add("(min-width: 900px) and (min-height: 760px)", function () {
-    var cards = gsap.utils.toArray(".xcard");
-    cards.forEach(function (card, i) {
-      var next = cards[i + 1]; if (!next) return;
-      gsap.to(card, { scale: 0.93, opacity: 0.55, ease: "none",
-        scrollTrigger: { trigger: next, start: "top 85%", end: "top 25%", scrub: true } });
-    });
-
     /* The Instagram column drifts with the section, and can still be scrolled by hand */
     var feed = document.getElementById("feed");
     ScrollTrigger.create({
@@ -186,6 +181,41 @@
     });
   });
 
+  /* Floating panels. Every block (hero, statement, each card, ...) eases in from a little smaller and fainter as it rises into view,
+     and eases back, smaller and dimmer, as it leaves, so one block at a time holds the screen. The values are damped every frame,
+     so the movement stays smooth and fades instead of snapping with the scroll. Positions come from layout (offsetTop), not from
+     the transformed rectangle, so the effect never feeds back into itself. */
+  var PANEL_SELECTORS = ["#heroCard", ".statement .inner", ".work .sec-head", ".xcard", "#impactCard", ".yoga__card",
+    ".roots .sec-head", ".roots__grid", ".camp-strip", ".about .sec-head", ".about__grid", ".contact__card"];
+  var panels = [];
+  PANEL_SELECTORS.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) { panels.push({ el: el, top: 0, h: 0, s: null, o: 0, y: 0 }); el.style.transformOrigin = "50% 50%"; });
+  });
+  function absTop(el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; }
+  function measure() { panels.forEach(function (p) { p.top = absTop(p.el); p.h = p.el.offsetHeight; }); }
+  function smooth(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * (3 - 2 * t); }
+  var lastHeight = 0, frame = 0;
+  measure();
+  window.addEventListener("resize", measure);
+  window.addEventListener("load", measure);
+  ScrollTrigger.addEventListener("refresh", measure);
+  gsap.ticker.add(function (time, deltaTime) {
+    if (++frame % 30 === 0 && document.documentElement.scrollHeight !== lastHeight) { lastHeight = document.documentElement.scrollHeight; measure(); }
+    var V = window.innerHeight, sy = window.scrollY, k = 1 - Math.exp(-(deltaTime || 16) / 130);
+    panels.forEach(function (p) {
+      var top = p.top - sy, bottom = top + p.h;
+      var inT = smooth((V * 0.98 - top) / (V * 0.55));      /* 0 when the panel is just below the screen, 1 once it has risen */
+      var outT = smooth((V * 0.62 - bottom) / (V * 0.55));  /* 0 while the panel is in view, 1 once it has gone up and away */
+      var s = (0.88 + 0.12 * inT) * (1 - 0.07 * outT);
+      var o = (0.08 + 0.92 * inT) * (1 - 0.72 * outT);
+      var y = 70 * (1 - inT);
+      if (p.s === null) { p.s = s; p.o = o; p.y = y; } /* first frame: start where the page is, no intro for what is already on screen */
+      else { p.s += (s - p.s) * k; p.o += (o - p.o) * k; p.y += (y - p.y) * k; }
+      if (p.s > 0.9995 && p.o > 0.999 && p.y < 0.1) { if (p.el.style.transform) { p.el.style.transform = ""; p.el.style.opacity = ""; } return; }
+      p.el.style.transform = "translate3d(0," + p.y.toFixed(2) + "px,0) scale(" + p.s.toFixed(4) + ")";
+      p.el.style.opacity = p.o.toFixed(3);
+    });
+  });
 
   window.addEventListener("load", function () { ScrollTrigger.refresh(); });
 })();
