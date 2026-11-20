@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{NAME}} | {{ROLE}}</title>
+<meta name="description" content="{{ONE_LINE_DESCRIPTION}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{NAME}} | {{ROLE}}">
+<meta property="og:description" content="{{ONE_LINE_DESCRIPTION}}">
+<meta property="og:image" content="assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="topbar" id="topbar">
+  <a class="topbar__name" href="#home" data-nav>{{NAME}}</a>
+  <a class="pill" href="#contact" data-nav>Contact</a>
+</header>
+
+<nav class="dock" aria-label="Sections" id="dock">
+  <a href="#home" data-nav>Home</a>
+  <a href="#work" data-nav>Work</a>
+  <a href="#about" data-nav>About</a>
+  <a href="#contact" data-nav>Contact</a>
+</nav>
+
+<main>
+  <!-- HERO: giant name behind a cut-out portrait -->
+  <section class="hero wrap" id="home">
+    <div class="inner">
+      <div class="hero__card" id="heroCard">
+        <div class="hero__bar"><span>Portfolio {{YEAR}}</span><a class="pill" href="#contact" data-nav>Contact</a></div>
+        <h1 class="hero__name display" id="heroName" aria-label="{{NAME}}"><span>{{FIRST}}</span> <span>{{LAST}}</span></h1>
+        <img class="hero__photo" id="heroPhoto" src="assets/img/portrait-cutout.webp" alt="{{PORTRAIT_ALT}}" width="848" height="1400" fetchpriority="high">
+        <p class="hero__title" id="heroTitle">{{ROLE_PLAIN}} &amp; <em>{{ROLE_HIGHLIGHT}}</em></p>
+        <p class="hero__meta" id="heroMeta"><strong>{{SCHOOL}}</strong>{{DEGREE}}</p>
+        <div class="hero__scroll"><i aria-hidden="true">↓</i> Scroll down</div>
+      </div>
+      <p class="hero__titleMobile">{{ROLE_PLAIN}} &amp; <em>{{ROLE_HIGHLIGHT}}</em></p>
+    </div>
+  </section>
+
+  <!-- STATEMENT: words light up on scroll; wrap one word in .hl for the blue marker -->
+  <section class="statement wrap" id="statement">
+    <div class="inner">
+      <h2 class="statement__line display" id="statementLine">{{STATEMENT_A}} <span class="hl">{{STATEMENT_HL}}</span> {{STATEMENT_B}}</h2>
+      <p class="statement__sub" data-reveal>{{SUBLINE}} <b>{{BOLD_PROOF}}</b></p>
+    </div>
+  </section>
+
+  <!-- WORK: sticky stacked cards. Alternate xcard--grey / xcard--paper -->
+  <section class="work wrap" id="work">
+    <div class="inner">
+      <div class="sec-head"><span class="label" data-reveal>Experience</span><h2 class="display" data-reveal>{{WORK_HEADLINE}}</h2></div>
+      <div class="stack" id="stack">
+        <article class="xcard xcard--grey">
+          <div>
+            <span class="xcard__tag">{{TAG}}</span>
+            <h3 class="xcard__role display">{{ROLE_TITLE}}</h3>
+            <p class="xcard__org">{{ORG}}<small>{{ORG_SUB}}</small></p>
+            <span class="xcard__date">{{DATES}}</span>
+            <div class="xcard__tags"><span class="chip">{{SKILL}}</span></div>
+          </div>
+          <ul class="bullets"><li>{{BULLET}}</li></ul>
+        </article>
+        <!-- repeat as .xcard--paper (optional <img class="xcard__bg"> logo watermark) -->
+      </div>
+    </div>
+  </section>
+
+  <!-- OPTIONAL feature card: .impact__card (sky gradient + navy) with .feed column; .yoga__card (sage) with photo rows;
+       .roots__grid of .rcard (paper) + .camp-strip. See SKILL.md "Section recipes". -->
+
+  <!-- ABOUT -->
+  <section class="about wrap" id="about">
+    <div class="inner">
+      <div class="sec-head"><span class="label" data-reveal>Background</span><h2 class="display" data-reveal>{{ABOUT_HEADLINE}}</h2></div>
+      <div class="about__grid">
+        <div class="acard" data-reveal><h3>Education</h3><p>{{SCHOOL}}<small>{{DEGREE_DATES}}</small></p></div>
+        <div class="acard" data-reveal><h3>Certificate</h3><p>{{CERT}}<small>{{CERT_SUB}}</small></p></div>
+        <div class="acard" data-reveal><h3>Tools</h3><div class="tools"><span class="chip">{{TOOL}}</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT: dark ink card -->
+  <section class="contact wrap" id="contact">
+    <div class="inner">
+      <div class="contact__card">
+        <span class="label" data-reveal>Contact</span>
+        <h2 class="contact__title display" data-reveal>Let's <em>talk.</em></h2>
+        <div class="contact__rows">
+          <div class="crow" data-reveal>
+            <span class="crow__k">Email</span>
+            <a class="crow__v" data-config="email" href="mailto:{{EMAIL}}" style="text-decoration:none">{{EMAIL}}</a>
+            <button type="button" data-copy="{{EMAIL}}">Copy</button>
+          </div>
+        </div>
+        <p class="foot">© {{YEAR}} {{NAME}}</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/feed.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
