@@ -268,11 +268,10 @@ ul { padding: 0; list-style: none; }
 .rcard .bullets li::before { background: var(--ink); }
 .rcard .ph { aspect-ratio: 16 / 9; margin-top: auto; background: repeating-linear-gradient(135deg, rgba(22, 22, 21, 0.04) 0 12px, rgba(22, 22, 21, 0.08) 12px 24px); }
 
-.camp-strip { margin-top: 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.camp-strip { margin-top: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .camp-strip img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 20px; }
 .camp-strip .a { object-position: 50% 30%; }
 .camp-strip .b { object-position: 50% 85%; }
-.camp-strip .c { object-position: 50% 78%; }
 .camp-cap { margin-top: 12px; font-size: 13px; color: var(--muted); }
 
 /* About */
